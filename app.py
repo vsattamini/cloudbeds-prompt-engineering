@@ -25,7 +25,7 @@ def index():
 
 
 def generate_prompt(animal):
-    return """Write a good prompt for an artificial intelligence system that creates images from text (Midjourney). The image is the cover for an article about {}.
+    return """Write a good prompt for an artificial intelligence system that creates images from text (DALL-E 2). The image is the cover for an article about {}.
 
 Here are three typical prompts:
 

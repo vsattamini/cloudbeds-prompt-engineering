@@ -1,44 +1,17 @@
 # OpenAI API Quickstart - Python example app
 
-This is an example pet name generator app used in the OpenAI API [quickstart tutorial](https://beta.openai.com/docs/quickstart). It uses the [Flask](https://flask.palletsprojects.com/en/2.0.x/) web framework. Check out the tutorial or follow the instructions below to get set up.
+This is a project for the cloudbeds prompt engineering job application. It was based on the OpenAI quickstart guide for python, and expanded upon by myself.
 
-## Setup
+## Description
 
-1. If you don’t have Python installed, [install it from here](https://www.python.org/downloads/)
+There are a few examples:
 
-2. Clone this repository
+1. A DALL-E 2 prompt generator, using a prompting method created for Midjourney by Alberto Romero via his Substack newsletter [The Algorithmic Bridge](https://thealgorithmicbridge.substack.com/)
+2. A prompt generator that takes a certain past (or present) civilization and asks GPT 3 to generate a text in its characteristic style. This functionality has two steps:
+   1. Retrieve the type of media that the civilization was known for
+   2. Retrieve the characteristics of that civilization to refine the prompt (warmongering, erudite, religious, etc...)
+3. A scientific article idea generator. Give it a subject and a field of expertise and it will generate a list of ideas (3) for scientific articles
 
-3. Navigate into the project directory
+---
 
-   ```bash
-   $ cd openai-quickstart-python
-   ```
-
-4. Create a new virtual environment
-
-   ```bash
-   $ python -m venv venv
-   $ . venv/bin/activate
-   ```
-
-5. Install the requirements
-
-   ```bash
-   $ pip install -r requirements.txt
-   ```
-
-6. Make a copy of the example environment variables file
-
-   ```bash
-   $ cp .env.example .env
-   ```
-
-7. Add your [API key](https://beta.openai.com/account/api-keys) to the newly created `.env` file
-
-8. Run the app
-
-   ```bash
-   $ flask run
-   ```
-
-You should now be able to access the app at [http://localhost:5000](http://localhost:5000)! For the full context behind this example app, check out the [tutorial](https://beta.openai.com/docs/quickstart).
+This structure could be used to generate whatever our minds can wish for. Note that this specific model can be expanded as much as requeired, using a dropdown list and further specifications (formal vs. casual, different languages, etc...) that were not contemplated in this demonstration.
