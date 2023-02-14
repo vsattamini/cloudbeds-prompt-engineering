@@ -1,3 +1,7 @@
+* {
+  background-color: #202123;
+}
+
 @font-face {
   font-family: "ColfaxAI";
   src: url(https://cdn.openai.com/API/fonts/ColfaxAIRegular.woff2)
@@ -17,7 +21,7 @@ body,
 input {
   font-size: 16px;
   line-height: 24px;
-  color: #353740;
+  color: #f6f7fb;
   font-family: "ColfaxAI", Helvetica, sans-serif;
 }
 body {
@@ -27,19 +31,28 @@ body {
   padding-top: 60px;
 }
 .icon {
-  width: 34px;
+  width: 100px;
 }
 h3 {
   font-size: 32px;
   line-height: 40px;
   font-weight: bold;
-  color: #202123;
-  margin: 16px 0 40px;
+  color: #f6f7fb;
+  margin: 16px 0 20px;
+}
+h4 {
+  line-height: 20px;
+  font-size: 15px;
+  color: #f6f7fb;
+  margin: 0 0 40px;
+  width: 500px;
+  text-align: center;
+  font-weight: lighter;
 }
 form {
   display: flex;
   flex-direction: column;
-  width: 320px;
+  width: 500px;
 }
 input[type="text"] {
   padding: 12px 16px;
@@ -63,4 +76,16 @@ input[type="submit"] {
 .result {
   font-weight: bold;
   margin-top: 40px;
+  max-width: 55vw;
+  text-align: center;
+}
+
+.selection {
+  padding: 12px 0;
+  color: #fff;
+  background-color: #10a37f;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
 }

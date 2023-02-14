@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <head>
-  <title>OpenAI Quickstart</title>
+  <title>OpenAI Prompt Showcase</title>
   <link
     rel="shortcut icon"
-    href="{{ url_for('static', filename='dog.png') }}"
+    href="{{ url_for('static', filename='open-ai-logo.png') }}"
   />
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
 </head>
 
 <body>
-  <img src="{{ url_for('static', filename='dog.png') }}" class="icon" />
-  <h3>Name my pet</h3>
+  <img src="{{ url_for('static', filename='open-ai-logo-2.png') }}" class="icon" />
+  <h3>Prompt Machine</h3>
+  <h4>
+    This is a demonstration made by Victor Löfgren for the cloudbeds selection process. The idea is to
+    automate prompt-engineering, using pre-estabilished (and very much thought-out)
+    prompts to enhance results. Instead of making templates and having humans manually
+    edit prompts, why not have GPT itself do it?
+  </h4>
   <form action="/" method="post">
-    <input type="text" name="animal" placeholder="Enter an animal" required />
-    <input type="submit" value="Generate names" />
+    <input type="text" name="animal" placeholder="What do you need?" required />
+    <input type="submit" value="Let it work its magic" />
   </form>
   {% if result %}
   <div class="result">{{ result }}</div>
