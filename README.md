@@ -1,6 +1,6 @@
 # OpenAI API Quickstart - Python example app
 
-This is a project for the cloudbeds prompt engineering job application. It was based on the OpenAI quickstart guide for python, and expanded upon by myself.
+This is a project for the cloudwalk prompt engineering job application. It was based on the OpenAI quickstart guide for python, and expanded upon by myself.
 
 ## Description
 
