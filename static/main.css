@@ -1,5 +1,7 @@
 * {
   background-color: #202123;
+  font-family: "ColfaxAI", Helvetica, sans-serif;
+
 }
 
 @font-face {
@@ -44,8 +46,8 @@ h4 {
   line-height: 20px;
   font-size: 15px;
   color: #f6f7fb;
-  margin: 0 0 40px;
-  width: 500px;
+  margin: 0 0 20px;
+  width: 55vw;
   text-align: center;
   font-weight: lighter;
 }
@@ -53,6 +55,7 @@ form {
   display: flex;
   flex-direction: column;
   width: 500px;
+  text-align:center;
 }
 input[type="text"] {
   padding: 12px 16px;
@@ -66,8 +69,21 @@ input[type="text"] {
 }
 input[type="submit"] {
   padding: 12px 0;
-  color: #fff;
+  color: #f6f7fb;
   background-color: #10a37f;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+}
+#clear-button {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  text-align:center;
+  padding: 12px 0;
+  color: #f6f7fb;
+  background-color: #ef5c80;
   border: none;
   border-radius: 4px;
   text-align: center;
@@ -82,10 +98,18 @@ input[type="submit"] {
 
 .selection {
   padding: 12px 0;
-  color: #fff;
+  color: #f6f7fb;
   background-color: #10a37f;
   border: none;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
+}
+
+.selectpicker{
+  color: #f6f7fb;
+  }
+
+a {
+  color: #fff;
 }

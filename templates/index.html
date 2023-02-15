@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-  <title>OpenAI Prompt Showcase</title>
+  <title>OpenAI Showcase</title>
   <link
     rel="shortcut icon"
     href="{{ url_for('static', filename='open-ai-logo.png') }}"
@@ -10,18 +10,58 @@
 
 <body>
   <img src="{{ url_for('static', filename='open-ai-logo-2.png') }}" class="icon" />
-  <h3>Prompt Machine</h3>
+  <h3>OpenAI API Showcase</h3>
   <h4>
-    This is a demonstration made by Victor Löfgren for the cloudbeds selection process. The idea is to
-    automate prompt-engineering, using pre-estabilished (and very much thought-out)
+    This is a demonstration made by Victor Löfgren for the cloudbeds selection process (Prompt Engineer). The idea is to
+    automate prompt engineering, using pre-estabilished (and very much thought-out)
     prompts to enhance results. Instead of making templates and having humans manually
-    edit prompts, why not have GPT itself do it?
+    edit prompts, why not have GPT-3 do it by itself in varying levels of complexity? These are the options available:
+    <ul>
+      <li>Image Generation: Write an idea, as short or long as you like, of an
+        image you want to see (E.g.: Flying horsemen). It will return a
+        better prompt that you can use to generate high-quality images
+        in Image Generation models</li>
+      <li>Historical Text: Write the name of a historical(or current)
+        civilization(E.g.: Assyria). It will generate a text on a
+         random subject in the style of the selected civilization
+         and reflecting its values. Threee different OpenAI API calls
+          are involved in generating the final prompt </li>
+      <li>Scientific Article: Write a subject or field of study
+        (E.g.: Neuroscience). The app will then ask GPT-3 to generate
+        a prompt, and use that generated prompt for the final API call</li>
+    </ul>
   </h4>
+
+
   <form action="/" method="post">
-    <input type="text" name="animal" placeholder="What do you need?" required />
+    <div class="input-group">
+      <span class="input-group-addon">Please select task:</span>
+      <br>
+          <select name="model-selection" class="selectpicker form-control">
+            {% for o in data %}
+            <option value="{{ o.name }}">{{ o.name }}</option>
+            {% endfor %}
+          </select>
+        <br>
+        <br>
+    </div>
+    <input type="text" name="subject" placeholder="What do you desire?" required />
     <input type="submit" value="Let it work its magic" />
   </form>
   {% if result %}
   <div class="result">{{ result }}</div>
   {% endif %}
+  <div class="row">
+    {% for image in images %}
+    <div class="col-lg-4">
+      <img src="{{image}}" class="img-fluid" alt="OpenAI DALLE2 Image Generation">
+    </div>
+    {% endfor %}
+  </div>
+
+  <div>
+    <p>Github Repository:  <a href="https://github.com/vsattamini/cloudbeds-prompt-engineering">here</a></p>
+  </div>
+
+  <a href="/" id="clear-button">Clear output</a>
 </body>
