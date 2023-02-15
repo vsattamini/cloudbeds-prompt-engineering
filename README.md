@@ -15,3 +15,7 @@ There are a few examples:
 ---
 
 This structure could be used to generate whatever our minds can wish for. Note that this specific model can be expanded as much as required, using a dropdown list and further specifications (formal vs. casual, different languages, etc...) that were not contemplated in this demonstration.
+
+---
+
+The app is hosted on Azure: https://cloudwalk-prompt-engineering.azurewebsites.net
