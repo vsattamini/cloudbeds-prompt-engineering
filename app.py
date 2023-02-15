@@ -91,7 +91,7 @@ You can use different words or concepts. Write just one prompt.
             prompt="""
             Generate an unusual and unexpected historical topic that could serve as the basis for a fake historical text. The topic should be quirky, offbeat, and unlikely, but also interesting and engaging. The text should capture the reader's attention and imagination with its vivid imagery, compelling narrative, and intriguing details. Some examples might include competitive yoga, the banana revolution, or the wheel conspiracy.
             """,
-            temperature=2,
+            temperature=1,
             frequency_penalty=0.05,
             max_tokens=1500,
         )
@@ -107,12 +107,12 @@ You can use different words or concepts. Write just one prompt.
             that disrupt traditional ways of thinking and draw on multiple disciplines.
             The emphasis should be on creative and bold article titles that catalyze
             conversation rather than a deep dive into the research, breaking new ground
-            and leading to better and more interesting research""",
+            and leading to better and more interesting research. Please remember to only generate 3 ideas""",
             temperature=1,
             frequency_penalty=0.05,
             max_tokens=1500,
         )
-        return final.choices[0].text + '. Do not number the ideas, and list only 3 of them'
+        return final.choices[0].text
 
 def createImageFromPrompt(prompt):
     response = openai.Image.create(prompt=prompt, n=3, size="512x512")
