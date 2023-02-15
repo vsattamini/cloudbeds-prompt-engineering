@@ -51,12 +51,13 @@
   {% if result %}
   <div class="result">{{ result }}</div>
   {% endif %}
+  <br>
   <div class="row">
-    {% for image in images %}
+    {% if image %}
     <div class="col-lg-4">
       <img src="{{image}}" class="img-fluid" alt="OpenAI DALLE2 Image Generation">
     </div>
-    {% endfor %}
+    {% endif %}
   </div>
 
   <div>

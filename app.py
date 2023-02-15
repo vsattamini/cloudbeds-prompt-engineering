@@ -19,20 +19,26 @@ def index():
             frequency_penalty=0.05,
             max_tokens=1500,
         )
-        return redirect(url_for("index", result=response.choices[0].text))
-    result = request.args.get("result")
-    if request.method == "POST":
-        initial = request.form["subject"]
-        images = []
-        if initial == 'Image Generation':
-            res = createImageFromPrompt(result)
-            if len(res) > 0:
-                for img in res:
-                    images.append(img['url'])
-        return redirect(url_for("index", image=res[0]['url']))
-    images = request.args.get("image")
+        if subject == 'Image Generation':
+            res = createImageFromPrompt(response.choices[0].text)
+        else:
+            res=[{'url':'static/open-ai-logo-3.png'}]
 
-    return render_template("index.html", result=result,image=images, data=[{'name':'Image Generation'}, {'name':'Historical Text'}, {'name':'Scientific Articles'}])
+        return redirect(url_for("index", result=response.choices[0].text, image=res[0]['url']))
+    result = request.args.get("result")
+    image = request.args.get("image")
+
+
+    # if request.method == "POST":
+    #     images = []
+    #     res = createImageFromPrompt(result)
+    #     if len(res) > 0:
+    #         for img in res:
+    #             images.append(img['url'])
+    #     return redirect(url_for("index", image=res[0]['url']))
+    # images = request.args.get("image")
+
+    return render_template("index.html", result=result,image=image, data=[{'name':'Image Generation'}, {'name':'Historical Text'}, {'name':'Scientific Articles'}])
 
 
 def generate_prompt(initial, subject):
@@ -66,7 +72,7 @@ You can use different words or concepts. Write just one prompt.
             4. Aztec - Sacrificing, violent, native, brave, domineering
             {}:
             """.format(initial.capitalize()),
-            temperature=0.8,
+            temperature=1.5,
             frequency_penalty=0.05,
             max_tokens=1500,
         )
@@ -106,7 +112,7 @@ You can use different words or concepts. Write just one prompt.
             frequency_penalty=0.05,
             max_tokens=1500,
         )
-        return final.choices[0].text
+        return final.choices[0].text + '. Do not number the ideas, and list only 3 of them'
 
 def createImageFromPrompt(prompt):
     response = openai.Image.create(prompt=prompt, n=3, size="512x512")
