@@ -2,10 +2,11 @@ import os
 
 import openai
 from flask import Flask, redirect, render_template, request, url_for
+import re
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
-
+MODEL = "text-davinci-003"
 
 @app.route("/", methods=("GET", "POST"))
 def index():
@@ -13,13 +14,13 @@ def index():
         subject = request.form["model-selection"]
         initial = request.form["subject"]
         response = openai.Completion.create(
-            model="text-davinci-003",
+            model=MODEL,
             prompt=generate_prompt(initial, subject),
             temperature=0.8,
             frequency_penalty=0.05,
             max_tokens=1500,
         )
-        if subject == 'Image Generation':
+        if subject == 'Image Generation' or subject == 'Character Image Generator':
             res = createImageFromPrompt(response.choices[0].text)
         else:
             res=[{'url':'static/open-ai-logo-3.png'}]
@@ -39,6 +40,41 @@ def index():
     # images = request.args.get("image")
 
     return render_template("index.html", result=result,image=image, data=[{'name':'Image Generation'}, {'name':'Historical Text'}, {'name':'Scientific Articles'}])
+
+
+@app.route("/rpg", methods=("GET", "POST"))
+def rpg():
+    if request.method == "POST":
+        subject = request.form["model-selection"]
+        initial = request.form["subject"]
+        response = openai.Completion.create(
+            model=MODEL,
+            prompt=generate_prompt(initial, subject),
+            temperature=0.8,
+            frequency_penalty=0,
+            presence_penalty=0,
+            max_tokens=1024
+        )
+        if subject == 'Character Image Generator':
+            res = createImageFromPrompt(response.choices[0].text)
+        else:
+            res=[{'url':'static/open-ai-logo-3.png'}]
+
+        return redirect(url_for("index", result=response.choices[0].text, image=res[0]['url']))
+    result = request.args.get("result")
+    image = request.args.get("image")
+
+
+    # if request.method == "POST":
+    #     images = []
+    #     res = createImageFromPrompt(result)
+    #     if len(res) > 0:
+    #         for img in res:
+    #             images.append(img['url'])
+    #     return redirect(url_for("index", image=res[0]['url']))
+    # images = request.args.get("image")
+
+    return render_template("index.html", result=result,image=image, data=[{'name':'Character Image Generator'}])
 
 
 def generate_prompt(initial, subject):
@@ -113,6 +149,55 @@ You can use different words or concepts. Write just one prompt.
             max_tokens=1500,
         )
         return final.choices[0].text
+
+    if subject == 'Character Image Generator':
+        return """Write a good prompt for an artificial intelligence system that creates images from text (DALL-E 2). The image is of a tabletop RPG Character, whose name and story are as follows{}.
+
+Here are three typical prompts:
+
+1. "Photoreastic fantasy elf, sun rays shining from above, wooded fairland, cinematic, detailed , fantastical"
+
+2. "Kneeling cat knight, portrait, finely detailed armor, intricate design, silver, silk, cinematic lighting, 4k."
+
+3. "Ultra sharp award winning underwater nature photography of a woman riding a glistening gradient sea horse, backlit, depth of field, ocean floor, lush vegetation, particles, solar rays, coral, golden fishes."
+
+You can use different words or concepts. Write just one prompt.
+""".format(
+        initial.capitalize()
+    )
+
+
+
+
+
+
+
+
+def number_splitter(input):
+    amount_list =[]
+    product_list = []
+    temp_amount_list =[]
+    temp_product_list = []
+    for character in input:
+        if character.isnumeric():
+            if len(temp_product_list) != 0:
+                if temp_product_list[0] != '':
+                    product_list.append("".join(temp_product_list))
+                    print(product_list)
+                    temp_product_list = []
+            temp_amount_list.append(character)
+        elif character.isalpha():
+            if len(temp_amount_list) != 0:
+                if temp_amount_list[0] != '':
+                    amount_list.append("".join(temp_amount_list))
+                    temp_amount_list = []
+            temp_product_list.append(character)
+    if len(temp_product_list) != 0:
+            product_list.append("".join(temp_product_list))
+    if len(temp_amount_list) != 0:
+            amount_list.append("".join(temp_amount_list))
+
+    return dict(zip(product_list, amount_list))
 
 def createImageFromPrompt(prompt):
     response = openai.Image.create(prompt=prompt, n=3, size="512x512")
