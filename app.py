@@ -20,8 +20,10 @@ def index():
             frequency_penalty=0.05,
             max_tokens=1500,
         )
-        if subject == 'Image Generation' or subject == 'Character Image Generator':
-            res = createImageFromPrompt(response.choices[0].text)
+        if subject == 'Image Generation':
+            res = createImageFromPrompt(response.choices[0].text, subject=subject)
+        elif subject == 'Playlist Creator':
+            res = createImageFromPrompt(response.choices[0].text, subject=subject, initial=initial)
         else:
             res=[{'url':'static/open-ai-logo-3.png'}]
 
@@ -39,7 +41,7 @@ def index():
     #     return redirect(url_for("index", image=res[0]['url']))
     # images = request.args.get("image")
 
-    return render_template("index.html", result=result,image=image, data=[{'name':'Image Generation'}, {'name':'Historical Text'}, {'name':'Scientific Articles'}])
+    return render_template("index.html", result=result,image=image, data=[{'name':'Image Generation'}, {'name':'Historical Text'}, {'name':'Scientific Articles'}, {'name':'Playlist Creator'}])
 
 
 @app.route("/rpg", methods=("GET", "POST"))
@@ -55,8 +57,8 @@ def rpg():
             presence_penalty=0,
             max_tokens=1024
         )
-        if subject == 'Character Image Generator':
-            res = createImageFromPrompt(response.choices[0].text)
+        if subject == 'Character Image Generator' or subject == 'Playlist Creator':
+            res = createImageFromPrompt(response.choices[0].text, subject)
         else:
             res=[{'url':'static/open-ai-logo-3.png'}]
 
@@ -151,7 +153,7 @@ You can use different words or concepts. Write just one prompt.
         return final.choices[0].text
 
     if subject == 'Character Image Generator':
-        return """Write a good prompt for an artificial intelligence system that creates images from text (DALL-E 2). The image is of a tabletop RPG Character, whose name and story are as follows{}.
+        return """Write a good prompt for an artificial intelligence system that creates images from text (DALL-E 2). The image is of a tabletop RPG Character, whose name and story are as follows: {}.
 
 Here are three typical prompts:
 
@@ -162,6 +164,16 @@ Here are three typical prompts:
 3. "Ultra sharp award winning underwater nature photography of a woman riding a glistening gradient sea horse, backlit, depth of field, ocean floor, lush vegetation, particles, solar rays, coral, golden fishes."
 
 You can use different words or concepts. Write just one prompt.
+""".format(
+        initial.capitalize()
+    )
+
+    if subject == 'Playlist Creator':
+        return  """
+    You are an expert song recommender. Based on the song {} create a playlist with 10 songs that are similar to the given song.
+    Do not choose songs that have the same names or artists. Do not write explanations or other words. Reply with only the playlist name,
+    a description and the 10 songs:
+
 """.format(
         initial.capitalize()
     )
@@ -199,6 +211,20 @@ def number_splitter(input):
 
     return dict(zip(product_list, amount_list))
 
-def createImageFromPrompt(prompt):
-    response = openai.Image.create(prompt=prompt, n=3, size="512x512")
-    return response['data']
+def createImageFromPrompt(prompt, subject, initial=None):
+    if subject == 'Playlist Creator':
+        final = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=f"""Please provide a prompt to use in an image generation model such as DALL-E 2, to generate the cover
+            for a playlist based on the song {initial}, which contains the description and songs listed here: {prompt}.
+            The prompt should maximize the vibe of the image:
+           """,
+            temperature=1,
+            frequency_penalty=0.05,
+            max_tokens=1500,
+        )
+        response = openai.Image.create(prompt=final.choices[0].text, n=1, size="512x512")
+        return response['data']
+    else:
+        response = openai.Image.create(prompt=prompt, n=1, size="512x512")
+        return response['data']
