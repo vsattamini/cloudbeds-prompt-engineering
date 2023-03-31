@@ -171,7 +171,7 @@ You can use different words or concepts. Write just one prompt.
     if subject == 'Playlist Creator':
         return  """
     You are an expert song recommender. Based on the song {} create a playlist with 10 songs that are similar to the given song.
-    Do not choose songs that have the same names or artists. Do not write explanations or other words. Reply with only the playlist name,
+    Do not choose songs that have the same names or artists. Be creative, think outside the box. Do not write explanations or other words. Reply with only the playlist name,
     a description and the 10 songs:
 
 """.format(
